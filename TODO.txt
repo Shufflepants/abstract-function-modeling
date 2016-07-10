@@ -1,0 +1,34 @@
+[X]Finish FunctionPool
+[X]	data read in
+[X] generate ADF Entries for primitive functions
+[X]	incorporate ADFs into 
+[X]		getRandomFunction 
+[X]		getNewFunciton 
+[X]		getWeightedRandom
+
+[ ]Create mutation apparatus
+[X]		constant tuning
+[X]		function evaluation
+[X]	Finish Similarity calculator
+[X]		combine existing metrics into similarity measure
+[X]			gradient
+[X]			critical points
+[X]			center of mass
+[X]			surface area
+[X]		combine similarity measure with parsimony for fitness measure
+[ ] Evolver
+[X] 	convertTunedConstants
+[X] 	stripNonContributors
+[ ] 	generateInitialPopulation
+[ ]		mutation step
+[ ] 		produceNextGeneration
+[X]			reconnection
+[X]			insertion
+[X]			deletion
+[ ] 	include code to track and gather run time data
+[ ]		write out learned ADF data and experiment data
+
+[ ]Experimentation Apparatus
+[X] Domain sampling generation
+[ ]	Function set creation
+
