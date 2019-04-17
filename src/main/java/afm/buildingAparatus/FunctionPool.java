@@ -8,7 +8,15 @@ import java.util.Scanner;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import afm.functions.*;
+import afm.functions.Addition;
+import afm.functions.Division;
+import afm.functions.Function;
+import afm.functions.GenericFunction;
+import afm.functions.Modulus;
+import afm.functions.Multiplication;
+import afm.functions.Relay;
+import afm.functions.Subtraction;
+import afm.functions.TunedConstant;
 import afm.tools.PropertyDoubleTensor;
 
 

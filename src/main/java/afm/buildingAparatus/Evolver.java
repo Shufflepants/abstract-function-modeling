@@ -1,6 +1,7 @@
 package afm.buildingAparatus;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.TreeMap;
 
@@ -76,7 +77,7 @@ public class Evolver
     
     public void generatePopulation(ADFDataEntry target, int initialInsertions)
     {
-        population = new ArrayList<GenericFunction>();
+        population = new ArrayList<>();
         
         for(int i=0;i<populationSize;i++)
         {
@@ -91,8 +92,6 @@ public class Evolver
             }
             reconnect(population.get(i), population.get(i).producers[0],0);
         }
-        
-        
     }
     
     
@@ -116,10 +115,8 @@ public class Evolver
         HashMap<Integer,Boolean> dependencies = genFun.producers[0].getDependencies();
         dependencies.remove(genFun.producers[0].id);
         
-        String[] subFunctions = (String[]) genFun.types.keySet().toArray(new String[0]);
-        
-             
-        
+        String[] subFunctions = genFun.types.keySet().toArray(new String[0]);
+
         return new ADFDataEntry(name,encoding,trainedData,subFunctions,fitness);
     }
     
@@ -174,18 +171,11 @@ public class Evolver
                 genFun.nodes.remove(fun);
                 genFun.hookyNodes.remove(fun);
                 genFun.nodes.add(relay);
-                
-                
             }else
             {
                 j++;
             }
-            
-            
-            
         }
-        
-        
         return genFun;
     }
     
@@ -238,15 +228,7 @@ public class Evolver
         
         return genFun;
     }
-    
-    
-    
-    
-    
-    
-    
-    
-    
+
     
     public void tuneConstant(ADFDataEntry target, GenericFunction genfun, TunedConstant constant)
     {
@@ -438,11 +420,8 @@ public class Evolver
                 potentialReconnectionSites.add(temp);
             }
         }
-        
-        for(Function temp : genfun.receivers)
-        {
-            potentialReconnectionSites.add(temp);
-        }
+
+        potentialReconnectionSites.addAll(Arrays.asList(genfun.receivers));
         
         int reconnectionChoice = (int) (Math.random()*potentialReconnectionSites.size());
         

@@ -116,10 +116,7 @@ public class ADFDataEntry
         
         //Add in original fitness
         fullEncoding = fullEncoding + originalFitness + "\n\n";
-        
-        
-        
-        
+
         return fullEncoding;
     }
     

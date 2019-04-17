@@ -52,7 +52,6 @@ public class Function
      */
     public Function getOutput(int n)
     {
-        
         return null;
     }
     
@@ -78,10 +77,7 @@ public class Function
                         dependencies.put(j,null);
                     }
                 }
-            	
             }
-            
-            
             dependencies.put(this.id, null);
             dependenciesComputed = true;
             
@@ -92,36 +88,27 @@ public class Function
     
     public HashMap<Integer,Boolean> getContributionDependencies()
     {
-        
         if(dependenciesComputed)
         {
             
         }else
         {
-            dependencies = new HashMap<Integer,Boolean>();
-            HashMap<Integer,Boolean> inputNodeDependencies;
+            dependencies = new HashMap<>();
             for(int i=0;i<inputNodes.length;i++)
             {
                 if(inputNodes[i].id>=0)
                 {
                     dependencies.put(inputNodes[i].id,null);
-                    inputNodeDependencies = inputNodes[i].getContributionDependencies();
+                    HashMap<Integer,Boolean> inputNodeDependencies = inputNodes[i].getContributionDependencies();
                     for(int j : inputNodeDependencies.keySet())
                     {
                         System.out.println("Included: " +j);
                         dependencies.put(j,null);
                     }
                 }
-                    
-                
-                
             }
-            
-            
             dependencies.put(this.id, null);
             dependenciesComputed = true;
-            
-            
         }
         return dependencies;
     }

@@ -70,10 +70,10 @@ public class GenericFunction extends Function
         }
         
         
-        nodes = new ArrayList<Function>();
-        hookyNodes = new ArrayList<Function>();
-        loopyNodes = new ArrayList<Function>();
-        nonRelays = new ArrayList<Function>();
+        nodes = new ArrayList<>();
+        hookyNodes = new ArrayList<>();
+        loopyNodes = new ArrayList<>();
+        nonRelays = new ArrayList<>();
         
         for(int i=0;i<numInNodes;i++)
         {
@@ -125,15 +125,15 @@ public class GenericFunction extends Function
          * output 
 		*/
 		
-		ArrayList<Entry> tempNodes = new ArrayList<Entry>();
+		ArrayList<Entry> tempNodes = new ArrayList<>();
 		String delims = "\\s+";
 		String[] tokens = graphStructure.split(delims);
 
-		ArrayList<String> tempReceivers = new ArrayList<String>();
-		ArrayList<String> tempProducers = new ArrayList<String>();
+		ArrayList<String> tempReceivers = new ArrayList<>();
+		ArrayList<String> tempProducers = new ArrayList<>();
 
-		ArrayList<String> tempInputTypes = new ArrayList<String>();
-		ArrayList<String> tempOutputTypes = new ArrayList<String>();
+		ArrayList<String> tempInputTypes = new ArrayList<>();
+		ArrayList<String> tempOutputTypes = new ArrayList<>();
 		
 		// Initialize type
 		type = tokens[1];
@@ -373,7 +373,7 @@ public class GenericFunction extends Function
 			//encoding = encoding + "\r\n";
 		}
 		
-		types = new HashMap<String,Boolean>();
+		types = new HashMap<>();
 		
 		for(int i=0;i<nodes.size();i++)
 		{
@@ -392,25 +392,24 @@ public class GenericFunction extends Function
 	
 	public String graphVisEncode()
 	{
-		String encoding = "digraph G {\n";
+		StringBuilder encoding = new StringBuilder("digraph G {\n");
 		
 		
 		for (int i = 0; i < nodes.size(); i++)
 		{
-			
 			for (int j = 0; j < nodes.get(i).inputNodes.length; j++)
 			{
 				if(!(nodes.get(i).inputNodes[j].type.compareTo("number")==0))
 				{
-				    encoding = encoding + "\"" + nodes.get(i).inputNodes[j].type + "_" + nodes.get(i).inputNodes[j].id + "\"" + " -> " + "\"" + nodes.get(i).type + "_" + nodes.get(i).id + "\"" + "\n";
+				    encoding.append("\"").append(nodes.get(i).inputNodes[j].type).append("_").append(nodes.get(i).inputNodes[j].id).append("\"")
+							.append(" -> ")
+							.append("\"").append(nodes.get(i).type).append("_").append(nodes.get(i).id).append("\"").append("\n");
 				}
-				
 			}
 		}
+		encoding.append("}");
 		
-		encoding = encoding + "}";
-		
-		return encoding;
+		return encoding.toString();
 	}
 
 	private class Entry
@@ -421,7 +420,7 @@ public class GenericFunction extends Function
 
 		public Entry()
 		{
-			receivingEdges = new ArrayList<ReceivingEdge>();
+			receivingEdges = new ArrayList<>();
 		}
 	}
 
@@ -433,13 +432,9 @@ public class GenericFunction extends Function
 	
 	public void resetComputed()
 	{
-	    for(int i=0; i<nodes.size();i++)
-	    {
-	        nodes.get(i).resetComputed();
-	    }
+		for (Function node : nodes) {
+			node.resetComputed();
+		}
         computed = false;
     }
-	
-	
-
 }

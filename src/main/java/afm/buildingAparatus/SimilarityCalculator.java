@@ -92,8 +92,6 @@ public class SimilarityCalculator
         {
             //System.out.println(diff[i]);
         }
-        
-        
                 
         return diff;
     }
@@ -183,9 +181,6 @@ public class SimilarityCalculator
         }
         
         return sim;
-        
-        
-    	
     }
     
     
@@ -231,7 +226,7 @@ public class SimilarityCalculator
     	}
     	*/
     	// Create the PropertyDoubleTensor for the candidate
-    	PropertyDoubleTensor candidateOutput = (PropertyDoubleTensor) DataGenerator.genRange(candidate, domain);
+    	PropertyDoubleTensor candidateOutput = DataGenerator.genRange(candidate, domain);
     	candidate.resultantData = candidateOutput;
     	candidateOutput.calcAttributes(domain);
     	
@@ -302,14 +297,9 @@ public class SimilarityCalculator
         double max;
         ArrayList<Double> a_;
         ArrayList<Double> b_;
-        
-               
-        
-        
+
         for(int i=0;i<a.length;i++)
         {
-            
-            
             a_ = a[i];
             b_ = b[i];
             
@@ -319,9 +309,6 @@ public class SimilarityCalculator
                 
                 total = total + (a_.get(j)-b_.get(j))*(a_.get(j)-b_.get(j));
             }
-            
-            
-            
         }
         
         total = Math.sqrt(total/a.length);
@@ -373,9 +360,7 @@ public class SimilarityCalculator
             
             normA = Math.sqrt(normA);
             
-            
-        	
-        	
+
             if(normA < min)
             {
                 min = normA;
@@ -383,8 +368,6 @@ public class SimilarityCalculator
             {
                 max = normA;
             }
-            
-            
         }
         if(max-min!=0)
         {
@@ -399,7 +382,6 @@ public class SimilarityCalculator
         System.out.println("NRMSD: " + total);
         
         return total;
-        
     }
     
     
@@ -410,7 +392,6 @@ public class SimilarityCalculator
         for(int i=0;i<arr.length;i++)
         {
             nums[i] = Double.parseDouble(arr[i]);
-            
         }
         return nums;
     }
@@ -424,6 +405,5 @@ public class SimilarityCalculator
         {
             return d;
         }
-        
     }
 }

@@ -34,10 +34,6 @@ public class Candidate extends GenericFunction
     {
         super(graphStructure,funPool);
     }
-    
-    
-    
-    
-    
+
     
 }
