@@ -40,7 +40,10 @@ public class Function
     {
         dependenciesComputed = false;
     }
-    
+
+    public Function() {
+
+    }
     
     /**
      * 

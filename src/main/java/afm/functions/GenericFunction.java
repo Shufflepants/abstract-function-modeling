@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import afm.buildingAparatus.FunctionPool;
-import afm.tools.PropertyTensor;
+import afm.tools.PropertyDoubleTensor;
 
 public class GenericFunction extends Function
 {
     public HashMap<String,Boolean> types;
     
-    public PropertyTensor resultantData;
+    public PropertyDoubleTensor resultantData;
 	
 	/*
 	 * receivers - 

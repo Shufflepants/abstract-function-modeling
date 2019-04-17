@@ -3,10 +3,8 @@ package afm.buildingAparatus;
 
 import java.util.ArrayList;
 
-import afm.tools.PropertyTensor;
-import afm.tools.Tensor;
+import afm.tools.PropertyDoubleTensor;
 import afm.functions.GenericFunction;
-import afm.functions.Number;
 
 public class SimilarityCalculator
 {
@@ -70,7 +68,7 @@ public class SimilarityCalculator
      * @param b
      * @return
      */
-    public double[] getDifferenceVector(PropertyTensor target, PropertyTensor candidate)
+    public double[] getDifferenceVector(PropertyDoubleTensor target, PropertyDoubleTensor candidate)
     {
     	double[] diff = new double[NUMPROP];
             	
@@ -101,9 +99,9 @@ public class SimilarityCalculator
     }
     
     // FINISH THE REST OF THIS (maybe this is finished?? check)
-    public double getSimilarityMeasure(PropertyTensor[] target, ADFDataEntry adf)
+    public double getSimilarityMeasure(PropertyDoubleTensor[] target, ADFDataEntry adf)
     {
-        PropertyTensor trainingData = adf.getTrainingData()[1];
+        PropertyDoubleTensor trainingData = adf.getTrainingData()[1];
         
         double[] diffVector;
         
@@ -127,7 +125,7 @@ public class SimilarityCalculator
     	        }
     	    }
     	    
-    	    PropertyTensor inverseProjection = new PropertyTensor(trainingData.size,projectedTargetValues);
+    	    PropertyDoubleTensor inverseProjection = new PropertyDoubleTensor(trainingData.size,projectedTargetValues);
     	    
     	    inverseProjection.calcAttributes(adf.getTrainingData()[0]);
     	    
@@ -163,7 +161,7 @@ public class SimilarityCalculator
                 }
             }
             
-            PropertyTensor inverseProjection = new PropertyTensor(target[1].size,projectedTrainingValues);
+            PropertyDoubleTensor inverseProjection = new PropertyDoubleTensor(target[1].size,projectedTrainingValues);
             
             inverseProjection.calcAttributes(target[0]);
             
@@ -192,7 +190,7 @@ public class SimilarityCalculator
     
     
     
-    public double getSimilarityMeasure(PropertyTensor target, GenericFunction candidate, PropertyTensor domain)
+    public double getSimilarityMeasure(PropertyDoubleTensor target, GenericFunction candidate, PropertyDoubleTensor domain)
     {
         /*
     	// Create output data for the candidate 
@@ -211,7 +209,7 @@ public class SimilarityCalculator
     		
     		for(int j=0;j<candidate.inputNodes.length;j++)
     		{
-    			((Number)candidate.inputNodes[j]).value = domain.data[i].get(j);
+    			((Number)candidate.inputNodes[j]).value = domain.data[i].getVectorAtIndex(j);
     		}
     		
     		candidate.compute();
@@ -232,8 +230,8 @@ public class SimilarityCalculator
     		size[i] = domain.size[i];
     	}
     	*/
-    	// Create the PropertyTensor for the candidate
-    	PropertyTensor candidateOutput = (PropertyTensor) DataGenerator.genRange(candidate, domain);
+    	// Create the PropertyDoubleTensor for the candidate
+    	PropertyDoubleTensor candidateOutput = (PropertyDoubleTensor) DataGenerator.genRange(candidate, domain);
     	candidate.resultantData = candidateOutput;
     	candidateOutput.calcAttributes(domain);
     	

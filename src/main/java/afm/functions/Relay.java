@@ -2,8 +2,6 @@ package afm.functions;
 
 public class Relay extends Function
 {
-    
-    
     public Relay()
     {
         inputTypes = new String[]{"number"}; //make more generic
@@ -36,7 +34,4 @@ public class Relay extends Function
             return null;
         }
     }
-    
-    
-
 }

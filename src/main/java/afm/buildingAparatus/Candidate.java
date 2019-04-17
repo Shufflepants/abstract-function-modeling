@@ -4,9 +4,6 @@ import java.util.HashMap;
 
 import afm.functions.Function;
 import afm.functions.GenericFunction;
-import afm.functions.Relay;
-import afm.tools.PropertyTensor;
-import afm.tools.Tensor;
 
 /**
  * 
@@ -24,7 +21,7 @@ public class Candidate extends GenericFunction
      * 
      * node is a list of all the nodes in this function
      * variables are the input and output nodes of this function
-     * constants are the number nodes that get tuned each round
+     * constants are the number nodes that getVectorAtIndex tuned each round
      * 
      */
     HashMap<Integer, Function> nodes;

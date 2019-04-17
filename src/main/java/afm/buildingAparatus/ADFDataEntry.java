@@ -2,13 +2,13 @@ package afm.buildingAparatus;
 
 import java.util.ArrayList;
 
-import afm.tools.PropertyTensor;
+import afm.tools.PropertyDoubleTensor;
 
 public class ADFDataEntry
 {
     String name;
     String encoding;
-    PropertyTensor[] trainingData;
+    PropertyDoubleTensor[] trainingData;
     String[] subFunctions;
     double cdfWeight;
     double weight;
@@ -36,7 +36,7 @@ public class ADFDataEntry
      * @param subFunctions
      * @param originalFitness
      */
-    public ADFDataEntry(String name, String encoding, PropertyTensor[] trainingData, String[] subFunctions, double originalFitness)
+    public ADFDataEntry(String name, String encoding, PropertyDoubleTensor[] trainingData, String[] subFunctions, double originalFitness)
     {
         this.name = name;
         this.encoding = encoding;
@@ -51,12 +51,12 @@ public class ADFDataEntry
         
     }
     
-    public PropertyTensor[] getTrainingData()
+    public PropertyDoubleTensor[] getTrainingData()
     {
     	return trainingData;
     }
     
-    public void setTrainingData(PropertyTensor[] td)
+    public void setTrainingData(PropertyDoubleTensor[] td)
     {
         trainingData = td;
     }

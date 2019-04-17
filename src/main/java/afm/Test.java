@@ -20,7 +20,7 @@ public class Test
         
         FunctionPool funpool = new FunctionPool("testADFs.txt");
         
-        //((PropertyTensor) funpool.ADFs.get("blah2").getTrainingData()[1]).calcAttributes(((PropertyTensor) funpool.ADFs.get("blah2").getTrainingData()[0]));
+        //((PropertyDoubleTensor) funpool.ADFs.getVectorAtIndex("blah2").getTrainingData()[1]).calcAttributes(((PropertyDoubleTensor) funpool.ADFs.getVectorAtIndex("blah2").getTrainingData()[0]));
         
         GenericFunction genfun = (GenericFunction)funpool.getNewFunction("blah3");
         
@@ -94,34 +94,10 @@ public class Test
         
         
         ArrayList<Double> t;
+
         
-        
-        
-        
-        Tensor<Double> m = new Tensor<Double>(new int[]{11,11});
-        Tensor<Double> o = new Tensor<Double>(new int[]{11,11});
-        
-        /*
-        for(int i=-5;i<6;i++)
-        {
-        	for(int j=-5;j<6;j++)
-        	{
-        		t = new ArrayList<Double>();
-        		t.add((double)j);
-        		t.add((double)i);
-        		m.set(new int[]{j+5, i+5},t);
-        		t = new ArrayList<Double>();
-        		t.add((double)i*j);
-        		o.set(new int[]{j+5, i+5},t);
-        	}
-        }
-        
-        g = m.gradient(o);
-        */
-        
-        
-        PropertyTensor s = new  PropertyTensor(new int[]{11,11});
-        PropertyTensor p = new  PropertyTensor(new int[]{11,11});
+        PropertyDoubleTensor s = new PropertyDoubleTensor(new int[]{11,11});
+        PropertyDoubleTensor p = new PropertyDoubleTensor(new int[]{11,11});
         
         
         
@@ -129,11 +105,11 @@ public class Test
     	{
         	for(int i= -5;i<6;i++)
         	{
-        		t = new ArrayList<Double>();
+        		t = new ArrayList<>();
         		t.add((double)j);
         		t.add((double)i);
         		s.set(new int[]{j+5,i+5},t);
-        		t = new ArrayList<Double>();
+        		t = new ArrayList<>();
         		t.add((double) (i*i));
         		p.set(new int[]{j+5,i+5},t);
         		
@@ -154,7 +130,7 @@ public class Test
         
         ADFDataEntry adf = funpool.hashedADFs.get("blah3");
         
-        PropertyTensor[] td = new PropertyTensor[2];
+        PropertyDoubleTensor[] td = new PropertyDoubleTensor[2];
         td[0] = s;
         td[1] = adf.getTrainingData()[1];
               
@@ -164,7 +140,7 @@ public class Test
         
         adf.setTrainingData(td);
         
-        PropertyTensor[] target = new PropertyTensor[2];
+        PropertyDoubleTensor[] target = new PropertyDoubleTensor[2];
         target[0] = s;
         target[1] = p;
         
@@ -189,8 +165,8 @@ public class Test
         
         for(int i=0;i<10;i++)
         {
-            //e.tuneConstant(targets[0], genfun, (TunedConstant)genfun.nodes.get(3));
-            //System.out.println("Tuned Constant: " + ((TunedConstant)genfun.nodes.get(3)).value);
+            //e.tuneConstant(targets[0], genfun, (TunedConstant)genfun.nodes.getVectorAtIndex(3));
+            //System.out.println("Tuned Constant: " + ((TunedConstant)genfun.nodes.getVectorAtIndex(3)).value);
             //System.out.println("Sim: " + targets[0].fitness);
         }
         
@@ -200,8 +176,8 @@ public class Test
         
         GenericFunction genfunTarget = (GenericFunction)funpool.getNewFunction("blah3");
         ((TunedConstant)genfunTarget.nodes.get(3)).value = 3.141592;
-        
-        
+
+        // noinspection unchecked
         ArrayList<Double>[] range = new ArrayList[target[0].data.length];
         
         ArrayList<Double> temp1;
@@ -221,7 +197,7 @@ public class Test
             
             genfunTarget.compute();
             
-            temp1 = new ArrayList<Double>();
+            temp1 = new ArrayList<>();
             temp1.add(((Number)genfunTarget.getOutput(0)).value);
             
                         
@@ -237,8 +213,8 @@ public class Test
             size[i] = target[0].size[i];
         }
         
-        // Create the PropertyTensor for the candidate
-        PropertyTensor candidateOutput = new PropertyTensor(size,range);
+        // Create the PropertyDoubleTensor for the candidate
+        PropertyDoubleTensor candidateOutput = new PropertyDoubleTensor(size,range);
         //genfunTarget.resultantData = candidateOutput;
         candidateOutput.calcAttributes(target[0]);
         
@@ -260,7 +236,7 @@ public class Test
             ArrayList<Double> tempList = s.data[i];
             for(int j=0;j<tempList.size();j++)
             {
-                System.out.print(tempList.get(j) + ",");
+                System.out.print(tempList.getVectorAtIndex(j) + ",");
             }
             System.out.print(";");
         }
@@ -278,13 +254,13 @@ public class Test
             testGen[i][1]=5;
         }
         
-        PropertyTensor domain = DataGenerator.genDomain(testGen, 51);
+        PropertyDoubleTensor domain = DataGenerator.genDomain(testGen, 51);
         
         GenericFunction genFun1 = (GenericFunction)funpool.getNewFunction("blah1");
         GenericFunction genFun2 = (GenericFunction)funpool.getNewFunction("blah2");
         
-        PropertyTensor rangeData1 = DataGenerator.genRange(genFun1, domain);
-        PropertyTensor rangeData2 = DataGenerator.genRange(genFun2, domain);
+        PropertyDoubleTensor rangeData1 = DataGenerator.genRange(genFun1, domain);
+        PropertyDoubleTensor rangeData2 = DataGenerator.genRange(genFun2, domain);
         
         rangeData1.calcAttributes(domain);
         System.out.println("Sim: " + sc.getSimilarityMeasure(rangeData1, genFun2, domain));
@@ -298,7 +274,7 @@ public class Test
         // test defaultPrimitives file
         
         FunctionPool primPool = new FunctionPool("defaultPrimitives.txt");
-        PropertyTensor[] newTarget = new PropertyTensor[2];
+        PropertyDoubleTensor[] newTarget = new PropertyDoubleTensor[2];
         double[][] ranges = new double[2][2];
         for(int i=0;i<ranges.length;i++)
         {

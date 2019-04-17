@@ -7,7 +7,7 @@ import java.util.TreeMap;
 import afm.functions.Function;
 import afm.functions.GenericFunction;
 import afm.functions.TunedConstant;
-import afm.tools.PropertyTensor;
+import afm.tools.PropertyDoubleTensor;
 import afm.functions.Number;
 
 public class Evolver
@@ -103,14 +103,14 @@ public class Evolver
      * @param fitness
      * @return
      */
-    public ADFDataEntry convertToADF(GenericFunction genFun, PropertyTensor[] trainingData, double fitness)
+    public ADFDataEntry convertToADF(GenericFunction genFun, PropertyDoubleTensor[] trainingData, double fitness)
     {
         genFun = stripNonContributors(genFun);
         convertTunedConstants(genFun);  
         
         String name = genFun.type;
         String encoding = genFun.encode(); 
-        PropertyTensor[] trainedData = trainingData;
+        PropertyDoubleTensor[] trainedData = trainingData;
         
         
         HashMap<Integer,Boolean> dependencies = genFun.producers[0].getDependencies();

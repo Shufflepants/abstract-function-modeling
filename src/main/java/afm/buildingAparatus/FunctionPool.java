@@ -1,6 +1,6 @@
 package afm.buildingAparatus;
 
-import java.io.*;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
@@ -8,9 +8,8 @@ import java.util.Scanner;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
-import afm.buildingAparatus.ADFDataEntry;
 import afm.functions.*;
-import afm.tools.PropertyTensor;
+import afm.tools.PropertyDoubleTensor;
 
 
 public class FunctionPool
@@ -31,11 +30,11 @@ public class FunctionPool
      * <dependant values>   //(values comma delimited)
      * <sub-functions>      //(values comma delimited)
      * 
-     * @param repositoryFile
+     * @param ADFFile
      */
     public FunctionPool(String ADFFile)
     {
-        hashedADFs = new HashMap<String,ADFDataEntry>();
+        hashedADFs = new HashMap<>();
         try
         {
             Scanner scan = new Scanner(new FileReader(ADFFile));
@@ -60,7 +59,7 @@ public class FunctionPool
                 ArrayList<Double>[] dependent;
                 ArrayList<Double> coordinates;
                 
-                // get the size of the training data
+                // getVectorAtIndex the size of the training data
                 indexStrings = scan.nextLine().split(",");
                 index = new int[indexStrings.length];
                 
@@ -106,9 +105,9 @@ public class FunctionPool
                 }
                 
                 // Merge independent and dependent data into trainingData array
-                PropertyTensor[] trainingData = new PropertyTensor[2];
-                trainingData[0] = new PropertyTensor(index,independent);
-                trainingData[1] = new PropertyTensor(index,dependent);
+                PropertyDoubleTensor[] trainingData = new PropertyDoubleTensor[2];
+                trainingData[0] = new PropertyDoubleTensor(index,independent);
+                trainingData[1] = new PropertyDoubleTensor(index,dependent);
                 
                 
                                 
@@ -252,7 +251,7 @@ public class FunctionPool
     }
     
     
-    public void newProblem(SimilarityCalculator simCalc, PropertyTensor[] target)
+    public void newProblem(SimilarityCalculator simCalc, PropertyDoubleTensor[] target)
     {
         treeADFs = new TreeMap<Double,ADFDataEntry>();
         

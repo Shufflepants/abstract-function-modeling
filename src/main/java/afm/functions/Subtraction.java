@@ -3,10 +3,6 @@ package afm.functions;
 
 public class Subtraction extends Function
 {
-    
-    
-    
-    
     public Subtraction()
     {
         inputTypes = new String[]{"number","number"};
@@ -19,7 +15,6 @@ public class Subtraction extends Function
     
     public void compute()
     {
-        
         double difference = ((Number)inputNodes[0].getOutput(inputSelect[0])).value 
                          - ((Number)inputNodes[1].getOutput(inputSelect[1])).value;
         Number result = new Number();
@@ -42,7 +37,6 @@ public class Subtraction extends Function
         {
             return null;
         }
-        
     }
     
     private double cap(double d)
@@ -54,7 +48,5 @@ public class Subtraction extends Function
         {
             return d;
         }
-        
     }
-    
 }

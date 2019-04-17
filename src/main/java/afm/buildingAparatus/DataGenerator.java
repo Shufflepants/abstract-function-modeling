@@ -3,8 +3,7 @@ package afm.buildingAparatus;
 import java.util.ArrayList;
 
 import afm.functions.GenericFunction;
-import afm.tools.PropertyTensor;
-import afm.tools.Tensor;
+import afm.tools.PropertyDoubleTensor;
 import afm.functions.Number;
 
 public class DataGenerator
@@ -15,7 +14,7 @@ public class DataGenerator
      * @param numDimSamples - the number of samples along an edge including the end points of the n-cube
      * @return
      */
-    public static PropertyTensor genDomain(double[][] ranges, int numDimSamples)
+    public static PropertyDoubleTensor genDomain(double[][] ranges, int numDimSamples)
     {
         int[] size = new int[ranges.length];
         int[] index = new int[ranges.length];
@@ -33,7 +32,7 @@ public class DataGenerator
         }
         */
         
-        PropertyTensor domain = new PropertyTensor(size);
+        PropertyDoubleTensor domain = new PropertyDoubleTensor(size);
         
         for(int i=0;i<Math.pow(numDimSamples, size.length);i++)
         {
@@ -43,7 +42,7 @@ public class DataGenerator
             for(int j=0;j<size.length;j++)
             {
                 point.add(index[j]*(ranges[j][1]-ranges[j][0])/(numDimSamples-1)+ranges[j][0]);
-                //System.out.print(point.get(j) + ",");
+                //System.out.print(point.getVectorAtIndex(j) + ",");
             }
             //System.out.println("\n");
             
@@ -75,7 +74,7 @@ public class DataGenerator
      * @param domain - the points over which you want the generic function evaluated
      * @return
      */
-    public static PropertyTensor genRange(GenericFunction genFun, PropertyTensor domain)
+    public static PropertyDoubleTensor genRange(GenericFunction genFun, PropertyDoubleTensor domain)
     {
         ArrayList<Double>[] rangeData = new ArrayList[domain.data.length];
         
@@ -132,12 +131,12 @@ public class DataGenerator
                 
                 rangeData[i].add(((Number)genFun.getOutput(0)).value);
                 
-                //System.out.print(") = " + rangeData[i].get(0) + "\n");
+                //System.out.print(") = " + rangeData[i].getVectorAtIndex(0) + "\n");
                 
             }
         }
         
-        PropertyTensor range = new PropertyTensor(size,rangeData);
+        PropertyDoubleTensor range = new PropertyDoubleTensor(size,rangeData);
         
         return range;
     }

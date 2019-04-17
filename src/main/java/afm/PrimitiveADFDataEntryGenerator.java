@@ -11,7 +11,7 @@ import afm.buildingAparatus.FunctionPool;
 import afm.functions.Function;
 import afm.functions.GenericFunction;
 import afm.functions.TunedConstant;
-import afm.tools.PropertyTensor;
+import afm.tools.PropertyDoubleTensor;
 
 public class PrimitiveADFDataEntryGenerator
 {
@@ -24,13 +24,13 @@ public class PrimitiveADFDataEntryGenerator
         
         ADFDataEntry[] primitives = new ADFDataEntry[6];
         
-        PropertyTensor[] trainingData;
+        PropertyDoubleTensor[] trainingData;
         
         FunctionPool funPool = new FunctionPool("testADFs.txt");
         Function temp;
         
-        PropertyTensor domain;
-        PropertyTensor range;
+        PropertyDoubleTensor domain;
+        PropertyDoubleTensor range;
         
         
         double[][] domain2D = new double[2][2];
@@ -59,7 +59,7 @@ public class PrimitiveADFDataEntryGenerator
             genfun.type = types[i];
             range = DataGenerator.genRange(genfun, domain);
             
-            trainingData = new PropertyTensor[2];
+            trainingData = new PropertyDoubleTensor[2];
             trainingData[0] = domain;
             trainingData[1] = range;
             
@@ -82,7 +82,7 @@ public class PrimitiveADFDataEntryGenerator
         tc.type = "tunedConstant";
         range = DataGenerator.genRange(tc, domain);
         
-        trainingData = new PropertyTensor[2];
+        trainingData = new PropertyDoubleTensor[2];
         trainingData[0] = domain;
         trainingData[1] = range;
         

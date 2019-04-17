@@ -8,6 +8,7 @@ public class Number extends Function
     
     public Number()
     {
+        super();
         inputNodes = new Function[0];
         value = 1;
         id=-1;
@@ -18,7 +19,8 @@ public class Number extends Function
     {
         computed = true;
     }
-    
+
+    @Override
     public Function getOutput(int n)
     {
         compute();
