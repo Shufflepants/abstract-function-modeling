@@ -18,8 +18,6 @@ public class PrimitiveADFDataEntryGenerator
 
     public static void main(String[] args)
     {
-        // TODO Auto-generated method stub
-
         double min = -5;
         double max = 5;
         int numSamples = 51;
@@ -89,14 +87,14 @@ public class PrimitiveADFDataEntryGenerator
         trainingData[1] = range;
         
         primitives[5] = new ADFDataEntry("tunedConstant",tc.encode(),trainingData,new String[0],1.0);
-        
-        
-        
-        
-    
+
+
+
+
+        BufferedWriter writer = null;
         try  
         {
-            BufferedWriter writer = new BufferedWriter(new PrintWriter(new FileWriter("defaultPrimitives.txt")));
+            writer = new BufferedWriter(new PrintWriter(new FileWriter("defaultPrimitives.txt")));
             for(int i=0;i<primitives.length;i++)
             {
                 String s = primitives[i].getFullEncoding();
@@ -107,6 +105,15 @@ public class PrimitiveADFDataEntryGenerator
             
         } catch (IOException x) {
             System.err.format("IOException: %s%n", x);
+        } finally {
+            if(writer != null) {
+                try {
+                    writer.close();
+                } catch (IOException x) {
+                    System.err.format("IOException: %s%n", x);
+                }
+            }
+
         }
             
         

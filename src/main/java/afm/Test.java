@@ -49,7 +49,6 @@ public class Test
         }
         
         int n = 100;
-        // TODO Auto-generated method stub
         double[] func1 = new double[n];
         double[] func2 = new double[n];
         double[] func3 = new double[n];
