@@ -41,10 +41,6 @@ public class Function
         dependenciesComputed = false;
     }
 
-    public Function() {
-
-    }
-    
     /**
      * 
      * @param n - the index of the output to be retrieved
@@ -57,13 +53,12 @@ public class Function
     
     public HashMap<Integer,Boolean> getDependencies()
     {
-    	
     	if(dependenciesComputed)
     	{
     		return dependencies;
     	}else
     	{
-    		dependencies = new HashMap<Integer,Boolean>();
+    		dependencies = new HashMap<>();
     		HashMap<Integer,Boolean> inputNodeDependencies;
             for(int i=0;i<inputNodes.length;i++)
             {
@@ -83,7 +78,6 @@ public class Function
             
             return dependencies;
     	}
-    	
     }
     
     public HashMap<Integer,Boolean> getContributionDependencies()
@@ -102,7 +96,6 @@ public class Function
                     HashMap<Integer,Boolean> inputNodeDependencies = inputNodes[i].getContributionDependencies();
                     for(int j : inputNodeDependencies.keySet())
                     {
-                        System.out.println("Included: " +j);
                         dependencies.put(j,null);
                     }
                 }

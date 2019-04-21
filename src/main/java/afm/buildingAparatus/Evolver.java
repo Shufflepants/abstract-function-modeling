@@ -44,8 +44,7 @@ public class Evolver
         this.tunerExponent = tunerExponent;
         solutions = new ADFDataEntry[targets.length];
         nextGenFunID = 0;
-        
-        
+
         simCalc = new SimilarityCalculator(alphas,weights);
     }
     
@@ -108,16 +107,14 @@ public class Evolver
         convertTunedConstants(genFun);  
         
         String name = genFun.type;
-        String encoding = genFun.encode(); 
-        PropertyDoubleTensor[] trainedData = trainingData;
-        
+        String encoding = genFun.encode();
         
         HashMap<Integer,Boolean> dependencies = genFun.producers[0].getDependencies();
         dependencies.remove(genFun.producers[0].id);
         
         String[] subFunctions = genFun.types.keySet().toArray(new String[0]);
 
-        return new ADFDataEntry(name,encoding,trainedData,subFunctions,fitness);
+        return new ADFDataEntry(name,encoding,trainingData,subFunctions,fitness);
     }
     
     /**
@@ -224,8 +221,6 @@ public class Evolver
                 i++;
             }
         }
-        
-        
         return genFun;
     }
 
@@ -251,7 +246,7 @@ public class Evolver
                             
                 constant.value =(Math.random()*10-5)*(startingValue/Math.pow(tunerBase, tunerExponent*i))+currentBestConstant;
                 
-                System.out.println("Tested Constant: " + constant.value);
+                //System.out.println("Tested Constant: " + constant.value);
                 
                 tempFitness = simCalc.getSimilarityMeasure(target.trainingData[1], genfun, target.trainingData[0]);
                 
@@ -260,12 +255,8 @@ public class Evolver
                     tempBestFitness = tempFitness;
                     tempCurrentBestConstant = constant.value;
                 }
-                
             }
-            
-            
         }
-        
         constant.value = currentBestConstant;
         target.fitness = tempBestFitness;
     }
@@ -275,8 +266,6 @@ public class Evolver
      * 
      * @param genfun
      * @param target
-     * @param r
-     * @param k
      */
     public void mutate(GenericFunction genfun, ADFDataEntry target)
     {
@@ -295,8 +284,6 @@ public class Evolver
             default:
                 reconnection(genfun, target);
                 break;
-                    
-         
         }
     }
     
@@ -344,11 +331,10 @@ public class Evolver
         
         if(genfun.nonRelays.size()>0)
         {
-            int deleteChoice = (int) (Math.random()*genfun.nonRelays.size());
+            int deleteChoice = (int) (Math.random()* genfun.nonRelays.size());
             
             Function chosenNode = genfun.nonRelays.get(deleteChoice);
-            
-            
+
             genfun.nonRelays.remove(chosenNode);
             genfun.loopyNodes.remove(chosenNode);
             genfun.hookyNodes.remove(chosenNode);
@@ -364,10 +350,7 @@ public class Evolver
                     }
                 }
             }
-            
         }
-        
-        
     }
     
     
@@ -391,9 +374,6 @@ public class Evolver
         {
             tuneConstant(target, genfun, (TunedConstant)chosenNode);
         }
-        
-        
-        
     }
     
     /**

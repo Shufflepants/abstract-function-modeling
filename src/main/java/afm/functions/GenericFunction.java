@@ -39,11 +39,6 @@ public class GenericFunction extends Function
 	
 	public ArrayList<Function> nonRelays;
 
-	public GenericFunction()
-	{
-		
-	}
-	
 	// Probably done
 	/**
 	 * Use this constructor for using a GenericFunction as a candidate function to be evolved
@@ -69,7 +64,6 @@ public class GenericFunction extends Function
             outputTypes[i] = "number";
         }
         
-        
         nodes = new ArrayList<>();
         hookyNodes = new ArrayList<>();
         loopyNodes = new ArrayList<>();
@@ -88,8 +82,6 @@ public class GenericFunction extends Function
             nodes.add(producers[i]);
             hookyNodes.add(producers[i]);
         }
-        
-        
     }
 	
 	/**
@@ -184,16 +176,13 @@ public class GenericFunction extends Function
 				{
 				    newEntry.receivingEdges.add(ed);
 				}
-				
-				
-
 				i = i + 2;
 
 			}
 		}
 		
 		// initialize the Function sets with their determined sizes
-		nodes = new ArrayList<Function>(tempNodes.size());
+		nodes = new ArrayList<>(tempNodes.size());
 		producers = new Function[tempProducers.size()];
 		receivers = new Function[tempReceivers.size()];
 				
@@ -269,13 +258,9 @@ public class GenericFunction extends Function
 		
         //initialize inputSelect
         inputSelect = new int[inputTypes.length];
-		
-		
+
 		//initialize output
 		output = new Function[outputTypes.length];
-		
-		
-        
 	}
 	
 	/**
@@ -335,8 +320,6 @@ public class GenericFunction extends Function
 	 */
 	public String encode()
 	{
-		
-		
 		String encoding = "";
 		encoding = encoding + "@ " + type + " ";
 
@@ -383,7 +366,6 @@ public class GenericFunction extends Function
 				{
 					types.put(nodes.get(i).type,false);
 				}
-				
 			}
 		}
 

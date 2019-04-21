@@ -57,7 +57,7 @@ public class PrimitiveADFDataEntryGenerator
             genfun.producers[0].inputNodes[0] = temp;
             genfun.nodes.add(temp);
             genfun.type = types[i];
-            range = DataGenerator.genRange(genfun, domain);
+            range = DataGenerator.generateRange(genfun, domain);
             
             trainingData = new PropertyDoubleTensor[2];
             trainingData[0] = domain;
@@ -65,9 +65,7 @@ public class PrimitiveADFDataEntryGenerator
             
             primitives[i] = new ADFDataEntry(types[i],genfun.encode(),trainingData,new String[0],1.0);
         }
-        
-        
-        
+
         
         // fix for tuned constant
         domain = DataGenerator.genDomain(domain1D, numSamples);
@@ -80,15 +78,13 @@ public class PrimitiveADFDataEntryGenerator
         tc.producers[0].inputNodes[0] = temp;
         tc.nodes.add(temp);
         tc.type = "tunedConstant";
-        range = DataGenerator.genRange(tc, domain);
+        range = DataGenerator.generateRange(tc, domain);
         
         trainingData = new PropertyDoubleTensor[2];
         trainingData[0] = domain;
         trainingData[1] = range;
         
         primitives[5] = new ADFDataEntry("tunedConstant",tc.encode(),trainingData,new String[0],1.0);
-
-
 
 
         BufferedWriter writer = null;
@@ -113,12 +109,6 @@ public class PrimitiveADFDataEntryGenerator
                     System.err.format("IOException: %s%n", x);
                 }
             }
-
         }
-            
-        
     }
-    
-    
-
 }

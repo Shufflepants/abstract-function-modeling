@@ -4,7 +4,9 @@ public class Number extends Function
 {
     public double value;
     
-    
+    public Number(double value) {
+        this.value = value;
+    }
     
     public Number()
     {

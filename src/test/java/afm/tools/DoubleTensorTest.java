@@ -1,6 +1,6 @@
 package afm.tools;
 
-import org.junit.jupiter.api.Test;
+import org.junit.Test;
 
 import java.util.ArrayList;
 

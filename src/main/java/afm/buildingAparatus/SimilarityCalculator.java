@@ -60,12 +60,12 @@ public class SimilarityCalculator
 		this.alphas = alphas;
 		this.weights = weights;
 	}
-	
-	
+
+
     /**
-     * 
-     * @param a
-     * @param b
+     *
+     * @param target
+     * @param candidate
      * @return
      */
     public double[] getDifferenceVector(PropertyDoubleTensor target, PropertyDoubleTensor candidate)
@@ -174,10 +174,7 @@ public class SimilarityCalculator
         
         for(int i=0;i<NUMPROP;i++)
         {
-            
             sim = sim + cap(weights[i]/(Math.pow(diffVector[i], alphas[i])+1));
-            
-            //System.out.println("Attribute"+i+": " + (weights[i]/(Math.pow(diffVector[i], alphas[i])+1)));
         }
         
         return sim;
@@ -226,7 +223,7 @@ public class SimilarityCalculator
     	}
     	*/
     	// Create the PropertyDoubleTensor for the candidate
-    	PropertyDoubleTensor candidateOutput = DataGenerator.genRange(candidate, domain);
+    	PropertyDoubleTensor candidateOutput = DataGenerator.generateRange(candidate, domain);
     	candidate.resultantData = candidateOutput;
     	candidateOutput.calcAttributes(domain);
     	
@@ -242,17 +239,15 @@ public class SimilarityCalculator
     	    
     		sim = sim + cap(weights[i]/(Math.pow(diffVector[i], alphas[i])+1));
     		
-    		System.out.println("Attribute"+i+": " + (weights[i]/(Math.pow(diffVector[i], alphas[i])+1)));
+    		//System.out.println("Attribute"+i+": " + (weights[i]/(Math.pow(diffVector[i], alphas[i])+1)));
     	}
     	
     	// add in parsimony
     	int nodeCount = candidate.nodes.size() - candidate.inputNodes.length - 1;
     	sim = sim + weights[weights.length-1]/(Math.pow(Math.sqrt(nodeCount), alphas[alphas.length-1])+1);
     	
-    	System.out.println("Parsimony: " + nodeCount + "  " + weights[weights.length-1]/(Math.pow(Math.sqrt(nodeCount), alphas[alphas.length-1])+1));
-    	
-    	    	
-    	    	
+    	//System.out.println("Parsimony: " + nodeCount + "  " + weights[weights.length-1]/(Math.pow(Math.sqrt(nodeCount), alphas[alphas.length-1])+1));
+
     	return sim;
     }
    

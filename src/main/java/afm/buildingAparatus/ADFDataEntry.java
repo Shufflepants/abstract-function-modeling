@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import afm.tools.PropertyDoubleTensor;
 
+/**
+ * Automatically Defined Function Data Entry
+ */
 public class ADFDataEntry
 {
     String name;

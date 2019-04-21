@@ -2,6 +2,7 @@ package afm.buildingAparatus;
 
 import java.util.ArrayList;
 
+import afm.functions.Function;
 import afm.functions.GenericFunction;
 import afm.tools.PropertyDoubleTensor;
 import afm.functions.Number;
@@ -24,13 +25,7 @@ public class DataGenerator
             size[i] = numDimSamples;
             index[i] = 0;
         }
-        
-        /*
-        if(size.length==0)
-        {
-            size = new int[];
-        }
-        */
+
         
         PropertyDoubleTensor domain = new PropertyDoubleTensor(size);
         
@@ -42,9 +37,7 @@ public class DataGenerator
             for(int j=0;j<size.length;j++)
             {
                 point.add(index[j]*(ranges[j][1]-ranges[j][0])/(numDimSamples-1)+ranges[j][0]);
-                //System.out.print(point.getVectorAtIndex(j) + ",");
             }
-            //System.out.println("\n");
             
             domain.data[i] = point;
             
@@ -62,8 +55,6 @@ public class DataGenerator
                 }
             }
         }
-        
-        
         return domain;
     }
     
@@ -74,7 +65,7 @@ public class DataGenerator
      * @param domain - the points over which you want the generic function evaluated
      * @return
      */
-    public static PropertyDoubleTensor genRange(GenericFunction genFun, PropertyDoubleTensor domain)
+    public static PropertyDoubleTensor generateRange(GenericFunction genFun, PropertyDoubleTensor domain)
     {
         ArrayList<Double>[] rangeData = new ArrayList[domain.data.length];
         
@@ -89,22 +80,18 @@ public class DataGenerator
         {
             for(int i=0;i<domain.data.length;i++)
             {
-                rangeData[i] = new ArrayList<Double>();
+                rangeData[i] = new ArrayList<>();
                 rangeData[i].add(((Number)genFun.getOutput(0)).value);
                 
             }
             
         }else if(genFun.inputNodes.length!=domain.size.length)
         {
-            System.out.println("Dimension of generic function = " + genFun.inputNodes.length 
-                    + " does not match dimension of domain data = " + domain.size.length 
-                    + " in DataGenerator.genRange.");
-            System.exit(1);
-            return null;
+            throw new IllegalArgumentException("Dimension of generic function = " + genFun.inputNodes.length
+                    + " does not match dimension of domain data = " + domain.size.length
+                    + " in DataGenerator.generateRange.");
         }else
         {
-            
-            
             afm.functions.Number[] input = new Number[domain.data[0].size()];
             
             for(int i=0;i<input.length;i++)
@@ -118,20 +105,14 @@ public class DataGenerator
                 rangeData[i] = new ArrayList<Double>();
                 
                 genFun.resetComputed();
-                
-                //System.out.print("f( ");
                 for(int j=0;j<point.size();j++)
                 {
                     ((Number)genFun.inputNodes[j]).value = point.get(j);
-                    
-                   // System.out.print(  ((Number)genFun.inputNodes[j]).value + ", ");
                 }
                 
                 genFun.compute();
                 
                 rangeData[i].add(((Number)genFun.getOutput(0)).value);
-                
-                //System.out.print(") = " + rangeData[i].getVectorAtIndex(0) + "\n");
                 
             }
         }
@@ -139,5 +120,25 @@ public class DataGenerator
         PropertyDoubleTensor range = new PropertyDoubleTensor(size,rangeData);
         
         return range;
+    }
+
+    public static double getValue3d(Function genericFunction, double x, double y) {
+
+        if (genericFunction.inputNodes.length != 2) {
+            throw new IllegalArgumentException("getValue3d can only be called on a function with 2 independent variables. "
+                    + "Function passed in has " + genericFunction.inputNodes.length + " input nodes.");
+        }
+        if (genericFunction.output.length != 1) {
+            throw new IllegalArgumentException("getValue3d can only be called on a function with 1 dependent variable. "
+                    + "Function passed in has " + genericFunction.output.length + " outputs.");
+        }
+
+        genericFunction.inputNodes[0] = new Number(x);
+        genericFunction.inputNodes[1] = new Number(y);
+
+        genericFunction.resetComputed();
+        genericFunction.compute();
+
+        return ((Number)genericFunction.getOutput(0)).value;
     }
 }

@@ -112,11 +112,7 @@ public class Test
         		t = new ArrayList<>();
         		t.add((double) (i*i));
         		p.set(new int[]{j+5,i+5},t);
-        		
-        		
-        		 
         	}
-    		
     	}
         
         System.out.println("CalcAttributes of target");/////////////
@@ -259,8 +255,8 @@ public class Test
         GenericFunction genFun1 = (GenericFunction)funpool.getNewFunction("blah1");
         GenericFunction genFun2 = (GenericFunction)funpool.getNewFunction("blah2");
         
-        PropertyDoubleTensor rangeData1 = DataGenerator.genRange(genFun1, domain);
-        PropertyDoubleTensor rangeData2 = DataGenerator.genRange(genFun2, domain);
+        PropertyDoubleTensor rangeData1 = DataGenerator.generateRange(genFun1, domain);
+        PropertyDoubleTensor rangeData2 = DataGenerator.generateRange(genFun2, domain);
         
         rangeData1.calcAttributes(domain);
         System.out.println("Sim: " + sc.getSimilarityMeasure(rangeData1, genFun2, domain));
