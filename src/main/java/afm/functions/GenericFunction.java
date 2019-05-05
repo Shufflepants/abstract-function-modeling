@@ -278,7 +278,7 @@ public class GenericFunction extends Function
 	            return f;
 	        }
 	    }
-	    return null;
+	    throw new IllegalStateException("Function with id " + id + " not found");
 	}
 
 	

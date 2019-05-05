@@ -40,25 +40,22 @@ public class FunctionPool
      * 
      * @param ADFFile
      */
-    public FunctionPool(String ADFFile)
-    {
+    public FunctionPool(String ADFFile) {
         hashedADFs = new HashMap<>();
-        try
-        {
+        try {
             Scanner scan = new Scanner(new FileReader(ADFFile));
-            
-            while(scan.hasNext())
-            {
-            	// Get the structure encoding
+
+            while (scan.hasNext()) {
+                // Get the structure encoding
                 String encoding = scan.nextLine();
-                
-                int endOfName = encoding.indexOf(' ',2);
-                
+
+                int endOfName = encoding.indexOf(' ', 2);
+
                 // Extract the function name
                 String name = encoding.substring(2, endOfName);
-                
+
                 functionNames.add(name);
-                
+
                 int[] index;
                 String[] indexStrings;
                 String[] independentStrings;
@@ -66,178 +63,180 @@ public class FunctionPool
                 ArrayList<Double>[] independent;
                 ArrayList<Double>[] dependent;
                 ArrayList<Double> coordinates;
-                
+
                 // getVectorAtIndex the size of the training data
                 indexStrings = scan.nextLine().split(",");
                 index = new int[indexStrings.length];
-                
-                for(int i=0;i<index.length;i++)
-                {
-                	index[i] = Integer.parseInt(indexStrings[i]);
+
+                for (int i = 0; i < index.length; i++) {
+                    index[i] = Integer.parseInt(indexStrings[i]);
                 }
-                
+
                 // read in and convert the independent coordinates of the training data
                 independentStrings = scan.nextLine().split(";");
                 independent = new ArrayList[independentStrings.length];
-                
-                
-                for(int i=0;i<independent.length;i++)
-                {
-                	String[] coordinateStrings = independentStrings[i].split(",");
-                	coordinates = new ArrayList<Double>();
-                	
-                	for(int j=0;j<coordinateStrings.length;j++)
-                	{
-                		coordinates.add(Double.parseDouble(coordinateStrings[j]));
-                	}
-                	
-                	independent[i] = coordinates;
+
+
+                for (int i = 0; i < independent.length; i++) {
+                    String[] coordinateStrings = independentStrings[i].split(",");
+                    coordinates = new ArrayList<>();
+
+                    for (int j = 0; j < coordinateStrings.length; j++) {
+                        coordinates.add(Double.parseDouble(coordinateStrings[j]));
+                    }
+
+                    independent[i] = coordinates;
                 }
-                
+
                 // read in and convert the dependent coordinates of the training data
                 dependentStrings = scan.nextLine().split(";");
                 dependent = new ArrayList[dependentStrings.length];
-                
-                
-                for(int i=0;i<dependent.length;i++)
-                {
-                	String[] coordinateStrings = dependentStrings[i].split(",");
-                	coordinates = new ArrayList<Double>();
-                	
-                	for(int j=0;j<coordinateStrings.length;j++)
-                	{
-                		coordinates.add(Double.parseDouble(coordinateStrings[j]));
-                	}
-                	
-                	dependent[i] = coordinates;
+
+
+                for (int i = 0; i < dependent.length; i++) {
+                    String[] coordinateStrings = dependentStrings[i].split(",");
+                    coordinates = new ArrayList<>();
+
+                    for (int j = 0; j < coordinateStrings.length; j++) {
+                        coordinates.add(Double.parseDouble(coordinateStrings[j]));
+                    }
+
+                    dependent[i] = coordinates;
                 }
-                
+
                 // Merge independent and dependent data into trainingData array
                 PropertyDoubleTensor[] trainingData = new PropertyDoubleTensor[2];
-                trainingData[0] = new PropertyDoubleTensor(index,independent);
-                trainingData[1] = new PropertyDoubleTensor(index,dependent);
-                
-                
-                                
+                trainingData[0] = new PropertyDoubleTensor(index, independent);
+                trainingData[1] = new PropertyDoubleTensor(index, dependent);
+
+
                 String[] subFun = scan.nextLine().split(";");
-                
-                if(subFun.length==1)
-                {
+
+                if (subFun.length == 1) {
                     subFun[0] = subFun[0].trim();
-                    if(subFun[0].compareTo("")==0)
-                    {
+                    if (subFun[0].compareTo("") == 0) {
                         subFun = new String[0];
                     }
-                        
                 }
-                    
-                
                 double fitness = Double.parseDouble(scan.nextLine());
-                
-                ADFDataEntry temp = new ADFDataEntry(name,encoding,trainingData,subFun,fitness);
-                
+
+                ADFDataEntry temp = new ADFDataEntry(name, encoding, trainingData, subFun, fitness);
+
                 hashedADFs.put(name, temp);
-                
+
                 scan.nextLine();
             }
-            
+
             scan.close();
-        
-        }catch(Exception e)
-        {
+
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        
+
         numFun = NUMPRIMFUN + hashedADFs.size();
-        
+
         nextID = 0;
     }
-    
-    public Function getRandomFunction()
-    {
-        int s = (int)Math.floor(Math.random()*numFun);
-        Function fun = null;
-        switch(s)
-        {
-            case 0: fun = new Addition();
-                    break;
-            case 1: fun = new Multiplication();
-                    break;
-            case 2: fun = new Division();
-                    break;
-            case 3: fun = new Subtraction();
-                    break;
-            case 4: fun = new Modulus();
-                    break;
-            case 5: fun = new TunedConstant();
-                    break;
-            default: 
-            	s = s - NUMPRIMFUN;
-            	String tempName = functionNames.get(s);
-            	String tempEncoding = hashedADFs.get(tempName).encoding;
-            	fun = new GenericFunction(tempEncoding,this);
-            	break;  	
+
+    public Function getRandomFunction() {
+        int s = (int) Math.floor(Math.random() * numFun);
+        Function fun;
+        switch (s) {
+            case 0:
+                fun = new Addition();
+                break;
+            case 1:
+                fun = new Multiplication();
+                break;
+            case 2:
+                fun = new Division();
+                break;
+            case 3:
+                fun = new Subtraction();
+                break;
+            case 4:
+                fun = new Modulus();
+                break;
+            case 5:
+                fun = new TunedConstant();
+                break;
+            default:
+                s = s - NUMPRIMFUN;
+                String tempName = functionNames.get(s);
+                String tempEncoding = hashedADFs.get(tempName).encoding;
+                fun = new GenericFunction(tempEncoding, this);
+                break;
         }
-        
+
         fun.id = nextID;
         nextID++;
-        
+
         return fun;
     }
-    
-    public Function getNewFunction(String name)
-    {
+
+    public Function getNewFunction(String name) {
         Function fun;
-        switch(name)
-        {
-            case "addition": fun = new Addition();
+        switch (name) {
+            case "addition":
+                fun = new Addition();
                 break;
-            case "subtraction": fun = new Subtraction();
+            case "subtraction":
+                fun = new Subtraction();
                 break;
-            case "division": fun = new Division();
+            case "division":
+                fun = new Division();
                 break;
-            case "multiplication": fun = new Multiplication();
+            case "multiplication":
+                fun = new Multiplication();
                 break;
-            case "modulus": fun = new Modulus();
+            case "modulus":
+                fun = new Modulus();
                 break;
-            case "relay": fun = new Relay();
+            case "relay":
+                fun = new Relay();
                 fun.id = nextID;
                 nextID++;
                 break;
-            case "tunedConstant": fun = new TunedConstant();
+            case "tunedConstant":
+                fun = new TunedConstant();
                 break;
             default:
-            	fun = new GenericFunction(hashedADFs.get(name).encoding,this);
+                fun = new GenericFunction(hashedADFs.get(name).encoding, this);
                 break;
         }
-        
-    	return fun;
+
+        return fun;
     }
-    
-    public Function getNewFunctionWithID(String name)
-    {
+
+    public Function getNewFunctionWithID(String name) {
         Function fun;
-        switch(name)
-        {
-            case "addition": fun = new Addition();
+        switch (name) {
+            case "addition":
+                fun = new Addition();
                 break;
-            case "subtraction": fun = new Subtraction();
+            case "subtraction":
+                fun = new Subtraction();
                 break;
-            case "division": fun = new Division();
+            case "division":
+                fun = new Division();
                 break;
-            case "multiplication": fun = new Multiplication();
+            case "multiplication":
+                fun = new Multiplication();
                 break;
-            case "modulus": fun = new Modulus();
+            case "modulus":
+                fun = new Modulus();
                 break;
-            case "relay": fun = new Relay();
+            case "relay":
+                fun = new Relay();
                 break;
-            case "tunedConstant": fun = new TunedConstant();
+            case "tunedConstant":
+                fun = new TunedConstant();
                 break;
             default:
-                fun = new GenericFunction(hashedADFs.get(name).encoding,this);
+                fun = new GenericFunction(hashedADFs.get(name).encoding, this);
                 break;
         }
-        
+
         fun.id = nextID;
         nextID++;
         return fun;
@@ -248,7 +247,6 @@ public class FunctionPool
     	double rand = Math.random()*CDFSum;
     	SortedMap<Double,ADFDataEntry> subMap = treeADFs.tailMap(rand);
     	ADFDataEntry tempADF = subMap.get(subMap.firstKey());
-    	//System.out.println("Rand: " + rand + " ADF Chosen: " + tempADF.name + " Fitness: " + tempADF.fitness);
         
     	Function selectedFun = getNewFunction(tempADF.name);
     	
@@ -257,52 +255,38 @@ public class FunctionPool
     	
     	return selectedFun;
     }
-    
-    
-    public void newProblem(SimilarityCalculator simCalc, PropertyDoubleTensor[] target)
-    {
-        treeADFs = new TreeMap<Double,ADFDataEntry>();
-        
-        
-        
+
+
+    public void newProblem(SimilarityCalculator simCalc, PropertyDoubleTensor[] target) {
+        treeADFs = new TreeMap<>();
+
         Collection<ADFDataEntry> adfsCollection = hashedADFs.values();
-        
+
         // Reset score
-        for(ADFDataEntry adf : adfsCollection)
-        {
+        for (ADFDataEntry adf : adfsCollection) {
             adf.fitness = 0;
         }
-        
+
         // Calculate Base score
-        for(ADFDataEntry adf : adfsCollection)
-        {
-            double score = simCalc.getSimilarityMeasure(target,adf);
-            
-            adf.fitness = score;
-            System.out.println("newProblem Fitness: " + adf.fitness);
+        for (ADFDataEntry adf : adfsCollection) {
+            adf.fitness = simCalc.getSimilarityMeasure(target, adf);
         }
-        
+
         // Give attribution scores
-        for(ADFDataEntry adf : adfsCollection)
-        {
-            
-            for(String subFunction : adf.subFunctions)
-            {
+        for (ADFDataEntry adf : adfsCollection) {
+            for (String subFunction : adf.subFunctions) {
                 ADFDataEntry temp = hashedADFs.get(subFunction);
-                
-                if(adf.fitness>temp.fitness)
-                {
+
+                if (adf.fitness > temp.fitness) {
                     temp.fitness = adf.fitness;
                     System.out.println("Attribution score: " + temp.fitness);
                 }
             }
-            
         }
-        
+
         // Assign cumulative scores and insert into treeMap
-        double total=0;
-        for(ADFDataEntry adf : adfsCollection)
-        {
+        double total = 0;
+        for (ADFDataEntry adf : adfsCollection) {
             total = total + adf.fitness;
             adf.fitness = total;
             treeADFs.put(total, adf);
@@ -311,7 +295,6 @@ public class FunctionPool
 
         CDFSum = total;
         nextID = 0;
-        
     }
     
     
@@ -321,6 +304,4 @@ public class FunctionPool
         functionNames.add(newADF.name);
         numFun++;
     }
-    
-    
 }

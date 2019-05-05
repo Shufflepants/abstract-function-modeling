@@ -3,7 +3,7 @@
  */
 package afm.functions;
 
-import java.util.HashMap;
+import java.util.HashSet;
 
 
 /**
@@ -18,7 +18,7 @@ public class Function
     public String[] outputTypes = null;
     public String type = "";
     public int id = -1;
-    public HashMap<Integer,Boolean> dependencies;
+    public HashSet<Integer> dependencies;
     public boolean dependenciesComputed = false;
     public Function[] output = null;
     public boolean computed = false;
@@ -51,56 +51,46 @@ public class Function
         return null;
     }
     
-    public HashMap<Integer,Boolean> getDependencies()
+    public HashSet<Integer> getDependencies()
     {
     	if(dependenciesComputed)
     	{
     		return dependencies;
     	}else
     	{
-    		dependencies = new HashMap<>();
-    		HashMap<Integer,Boolean> inputNodeDependencies;
+    		dependencies = new HashSet<>();
+    		HashSet<Integer> inputNodeDependencies;
             for(int i=0;i<inputNodes.length;i++)
             {
                 if(!inputNodes[i].type.equals("relay"))
                 {
-                    dependencies.put(inputNodes[i].id,null);
+                    dependencies.add(inputNodes[i].id);
                     inputNodeDependencies = inputNodes[i].getDependencies();
-                    for(int j : inputNodeDependencies.keySet())
-                    {
-                        
-                        dependencies.put(j,null);
-                    }
+                    dependencies.addAll(inputNodeDependencies);
                 }
             }
-            dependencies.put(this.id, null);
+            dependencies.add(this.id);
             dependenciesComputed = true;
             
             return dependencies;
     	}
     }
     
-    public HashMap<Integer,Boolean> getContributionDependencies()
+    public HashSet<Integer> getContributionDependencies()
     {
-        if(dependenciesComputed)
+        if(!dependenciesComputed)
         {
-            
-        }else
-        {
-            dependencies = new HashMap<>();
+            dependencies = new HashSet<>();
             for(int i=0;i<inputNodes.length;i++)
             {
                 if(inputNodes[i].id>=0)
                 {
-                    dependencies.put(inputNodes[i].id,null);
-                    HashMap<Integer,Boolean> inputNodeDependencies = inputNodes[i].getContributionDependencies();
-                    for(int j : inputNodeDependencies.keySet())
-                    {
-                        dependencies.put(j,null);
-                    }
+                    dependencies.add(inputNodes[i].id);
+                    HashSet<Integer> inputNodeDependencies = inputNodes[i].getContributionDependencies();
+                    dependencies.addAll(inputNodeDependencies);
                 }
             }
-            dependencies.put(this.id, null);
+            dependencies.add(this.id);
             dependenciesComputed = true;
         }
         return dependencies;

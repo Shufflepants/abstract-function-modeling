@@ -102,7 +102,7 @@ public class DataGenerator
             for(int i=0;i<domain.data.length;i++)
             {
                 ArrayList<Double> point = domain.data[i];
-                rangeData[i] = new ArrayList<Double>();
+                rangeData[i] = new ArrayList<>();
                 
                 genFun.resetComputed();
                 for(int j=0;j<point.size();j++)
@@ -122,23 +122,44 @@ public class DataGenerator
         return range;
     }
 
-    public static double getValue3d(Function genericFunction, double x, double y) {
+    public static double getValue3d(Function function, double x, double y) {
 
-        if (genericFunction.inputNodes.length != 2) {
+        if (function.inputNodes.length != 2) {
             throw new IllegalArgumentException("getValue3d can only be called on a function with 2 independent variables. "
-                    + "Function passed in has " + genericFunction.inputNodes.length + " input nodes.");
+                    + "Function passed in has " + function.inputNodes.length + " input nodes.");
         }
-        if (genericFunction.output.length != 1) {
+        if (function.output.length != 1) {
             throw new IllegalArgumentException("getValue3d can only be called on a function with 1 dependent variable. "
-                    + "Function passed in has " + genericFunction.output.length + " outputs.");
+                    + "Function passed in has " + function.output.length + " outputs.");
         }
 
-        genericFunction.inputNodes[0] = new Number(x);
-        genericFunction.inputNodes[1] = new Number(y);
+        double[] input = new double[]{x,y};
 
-        genericFunction.resetComputed();
-        genericFunction.compute();
+        return getValue(function, input);
+    }
 
-        return ((Number)genericFunction.getOutput(0)).value;
+    /**
+     * Takes a multivariate input (x_1, x_2, ...) and returns the output of the provided function. If the number of
+     * inputs on the function is greater than the number of inputs provided, the function will be evaluated with the
+     * later inputs set to 0. If the inputs provided is greater than the number of input variables on the function, only
+     * the first n inputs will be used where n is the number of inputs the function takes.
+     * For function f(x_1,x_2,...,x_n) and input (y_1,y_2,...,y_m)
+     * if n>m, returns f(y_1,y_2,...,y_m,0,...)
+     * if m>=n, returns f(y_1,y_2,...,y_n)
+     * @param function function to be evaluated
+     * @param input an array containing the input values to evaluate the multi-dimensional function at
+     * @return the output of the function evaluated at the input
+     */
+    public static double getValue(Function function, double[] input) {
+        for (int i=0; i<function.inputNodes.length; i++) {
+            if (i< input.length) {
+                function.inputNodes[i] = new Number(input[i]);
+            } else {
+                function.inputNodes[i] = new Number(0);
+            }
+        }
+        function.resetComputed();
+        function.compute();
+        return ((Number)function.getOutput(0)).value;
     }
 }

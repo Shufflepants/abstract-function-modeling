@@ -36,7 +36,7 @@ public class jzy3dTest extends AbstractAnalysis {
         Mapper mapper = new Mapper() {
             @Override
             public double f(double x, double y) {
-                return DataGenerator.getValue3d(function, x, y);
+                return DataGenerator.getValue(function, new double[]{x, y});
             }
         };
 
@@ -83,6 +83,7 @@ public class jzy3dTest extends AbstractAnalysis {
             variables[i].value = i+1;
             evGF.inputNodes[i] = variables[i];
         }
+        evGF.compute();
         evGF.resetComputed();
         evolver.stripNonContributors(evGF);
         return evGF;
