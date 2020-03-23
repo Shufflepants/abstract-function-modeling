@@ -1,4 +1,5 @@
-.idea
+# file: ~/.gitignore_global
+*.idea
 target
 bin
 *.iml

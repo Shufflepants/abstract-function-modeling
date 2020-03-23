@@ -3,6 +3,7 @@ package afm.buildingAparatus;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.TreeMap;
 
 import afm.functions.Function;
@@ -165,11 +166,13 @@ public class Evolver {
         System.out.println(genFun.graphVisEncode());
         HashSet<Integer> activeNodes = genFun.producers[0].getContributionDependencies();
 
-        for (int i = 0; i < genFun.nodes.size(); ) {
-            Function temp = genFun.nodes.get(i);
+        Iterator<Function> iterator = genFun.nodes.iterator();
+
+        while (iterator.hasNext()) {
+            Function temp = iterator.next();
             System.out.println(temp.type + temp.id);
             if (!activeNodes.contains(temp.id)) {
-                System.out.println(genFun.nodes.remove(temp));
+                System.out.println("Removed " + temp.id);
                 if (temp.type.equals("relay")) {
                     Function[] newReceivers = new Function[genFun.receivers.length - 1];
                     String[] newInputTypes = new String[genFun.inputTypes.length - 1];
@@ -185,11 +188,12 @@ public class Evolver {
                     }
                     genFun.receivers = newReceivers;
                     genFun.inputTypes = newInputTypes;
+
                 }
-            } else {
-                i++;
+                iterator.remove();
             }
         }
+        System.out.println(genFun.graphVisEncode());
         return genFun;
     }
 

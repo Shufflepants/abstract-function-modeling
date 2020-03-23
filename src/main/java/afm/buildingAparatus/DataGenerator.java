@@ -32,7 +32,7 @@ public class DataGenerator
         for(int i=0;i<Math.pow(numDimSamples, size.length);i++)
         {
             
-            ArrayList<Double> point = new ArrayList<Double>();
+            ArrayList<Double> point = new ArrayList<>();
             
             for(int j=0;j<size.length;j++)
             {
@@ -70,11 +70,8 @@ public class DataGenerator
         ArrayList<Double>[] rangeData = new ArrayList[domain.data.length];
         
         int[] size = new int[domain.size.length];
-        
-        for(int i=0;i<size.length;i++)
-        {
-            size[i] = domain.size[i];
-        }
+
+        System.arraycopy(domain.size, 0, size, 0, size.length);
         
         if(genFun.inputNodes.length==0)
         {
